@@ -1,0 +1,93 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  CITIZEN
+  ADMIN
+}
+
+enum RegistrationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id                    String                 @id @default(uuid())
+  email                 String                 @unique
+  password              String
+  fullName              String
+  phoneNumber           String?
+  role                  UserRole               @default(CITIZEN)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  vehicleRegistrations  VehicleRegistration[]
+
+  @@map("users")
+}
+
+model VehicleRegistration {
+  id                String              @id @default(uuid())
+  registrationNumber String?            @unique
+  status            RegistrationStatus  @default(PENDING)
+  submittedAt       DateTime            @default(now())
+  reviewedAt        DateTime?
+  rejectionReason   String?
+
+  userId            String
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  vehicleId         String              @unique
+  vehicle           Vehicle             @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  ownerId           String              @unique
+  owner             Owner               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@map("vehicle_registrations")
+}
+
+model Vehicle {
+  id                    String               @id @default(uuid())
+  plateNumber           String               @unique
+  make                  String
+  model                 String
+  year                  Int
+  color                 String
+  chassisNumber         String               @unique
+  engineNumber          String               @unique
+  vehicleType           String
+
+  vehicleRegistration   VehicleRegistration?
+
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+
+  @@map("vehicles")
+}
+
+model Owner {
+  id                    String               @id @default(uuid())
+  fullName              String
+  nationalId            String               @unique
+  phoneNumber           String
+  email                 String?
+  address               String
+
+  vehicleRegistration   VehicleRegistration?
+
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+
+  @@map("owners")
+}
