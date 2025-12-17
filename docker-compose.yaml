@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: vehicle_postgres
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 00aa1122
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: vehicle_backend
+    restart: always
+    environment:
+      DATABASE_URL: "postgresql://postgres:00aa1122@postgres:5432/test"
+    ports:
+      - "4000:3001"
+    depends_on:
+      - postgres
+
+  frontend:
+    build: ./frontend
+    container_name: vehicle_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
