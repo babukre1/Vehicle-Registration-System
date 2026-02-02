@@ -6,7 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    origin: 'http://localhost:3000', // your Next.js app
+    // origin: 'http://localhost:3000', // your Next.js app
+    origin: true, // your Next.js app
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true, // set to true only if you use cookies/auth headers
   });
