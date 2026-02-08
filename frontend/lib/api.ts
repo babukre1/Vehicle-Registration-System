@@ -10,7 +10,8 @@ import type {
 } from "@/types";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://vehicle-registration-system-backend-oqou0cexz.vercel.app";
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  "https://vehicle-registration-system-backend-oqou0cexz.vercel.app";
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -31,7 +32,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Auth API
@@ -50,11 +51,11 @@ export const authApi = {
 // Registrations API
 export const registrationsApi = {
   create: async (
-    data: CreateRegistrationRequest
+    data: CreateRegistrationRequest,
   ): Promise<VehicleRegistration> => {
     const response = await apiClient.post("/api/registrations", data);
     console.log(response);
-    
+
     return response.data;
   },
 
@@ -72,11 +73,11 @@ export const registrationsApi = {
 
   updateStatus: async (
     id: string,
-    data: UpdateStatusRequest
+    data: UpdateStatusRequest,
   ): Promise<VehicleRegistration> => {
     const response = await apiClient.patch(
       `/api/registrations/${id}/status`,
-      data
+      data,
     );
     return response.data;
   },
