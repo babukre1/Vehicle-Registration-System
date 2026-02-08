@@ -10,7 +10,7 @@ import type {
 } from "@/types";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://vehicle-registration-system-backend-oqou0cexz.vercel.app";
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
