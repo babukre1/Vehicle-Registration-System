@@ -4,6 +4,8 @@ import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 
+process.env.PRISMA_CLIENT_ENGINE_TYPE = 'binary';
+
 @Injectable()
 export class PrismaService
   extends PrismaClient
