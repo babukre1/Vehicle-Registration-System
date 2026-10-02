@@ -42,6 +42,19 @@ User submits form -> `POST /api/registrations` -> NestJS Service validates -> Pr
 
 ## 🏁 Quick Start
 
+### Deployment routing and private document storage
+
+The frontend uses same-origin API URLs (`/api/...`). In production, Next.js proxies them to the backend configured by `BACKEND_ORIGIN` (defaults to `https://vehicle-registration-system-backend.vercel.app`). Set the backend environment variables shown in `backend/.env.example`, including the four `R2_*` values for a private Cloudflare R2 bucket.
+
+Create an R2 API token with **Object Read & Write** access restricted to the document bucket. Do not make the bucket public; authenticated API requests receive five-minute signed download URLs.
+
+To create or rotate the administrator account:
+
+```bash
+cd backend
+ADMIN_EMAIL=admin@vrs.abubakr.so ADMIN_PASSWORD='a-long-unique-password' npm run seed:admin
+```
+
 ### Prerequisites
 *   Node.js & npm
 *   Docker & Docker Compose

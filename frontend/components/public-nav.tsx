@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
+import Image from "next/image";
 
 export function PublicNav() {
   const pathname = usePathname();
@@ -18,20 +19,18 @@ export function PublicNav() {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
+    <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center gap-2">
-            <FileText className="w-6 h-6 text-primary" />
-            <span className="font-bold text-lg text-primary hidden sm:inline">
-              VRS
-            </span>
-            <span className="font-bold text-lg text-primary sm:hidden">
-              VRS
+        <div className="flex min-h-20 justify-between items-center py-3">
+          <Link href="/" className="flex items-center gap-3">
+            <Image src="/somalia-coat-of-arms.png" alt="Federal Republic of Somalia coat of arms" width={48} height={40} className="h-12 w-14 object-contain" priority />
+            <span className="hidden border-l border-slate-200 pl-3 sm:block">
+              <span className="block text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Federal Republic of Somalia</span>
+              <span className="block text-base font-semibold text-slate-900">Vehicle Registration Service</span>
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8">
             {links.map((link) => (
               <Link
                 key={link.href}

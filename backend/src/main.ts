@@ -4,15 +4,14 @@ import { AppModule } from './modules/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('api');
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.enableCors({
-    origin: 'vehicle-registration-system-backend-oqou0cexz.vercel.app', // your Next.js app
-    // origin: true, // your Next.js app
+    origin: (process.env.CORS_ORIGINS ?? 'https://vrs.abubakr.so,http://localhost:3000').split(','),
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true, // set to true only if you use cookies/auth headers
   });
 
-  app.enableCors();
   await app.listen(process.env.PORT ?? 3001, '0.0.0.0');
 }
 bootstrap();

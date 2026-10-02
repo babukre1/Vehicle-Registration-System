@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Car, User, Loader2, ArrowLeft } from "lucide-react"
+import { Car, User, Loader2, ArrowLeft, Paperclip, Upload } from "lucide-react"
 import { AppLayout } from "@/components/app-layout"
 import { registrationsApi } from "@/lib/api"
 import { useAuth } from "@/context/auth-context"
@@ -40,6 +40,7 @@ export default function SubmitRegistrationPage() {
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState("")
   const [ownerEmail, setOwnerEmail] = useState("")
   const [address, setAddress] = useState("")
+  const [files, setFiles] = useState<File[]>([])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -69,7 +70,6 @@ export default function SubmitRegistrationPage() {
     setLoading(true)
     try {
       const payload: CreateRegistrationRequest = {
-        userId: user.id,
         vehicle: {
           plateNumber,
           make,
@@ -89,7 +89,8 @@ export default function SubmitRegistrationPage() {
         },
       }
 
-      await registrationsApi.create(payload)
+      const registration = await registrationsApi.create(payload)
+      await Promise.all(files.map((file) => registrationsApi.uploadAttachment(registration.id, file)))
       toast.success("Registration submitted successfully!")
       router.push("/dashboard")
     } catch (error: unknown) {
@@ -243,6 +244,27 @@ export default function SubmitRegistrationPage() {
                   />
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border shadow-none">
+            <CardHeader className="pb-4">
+              <div className="flex items-center gap-3">
+                <Paperclip className="h-5 w-5 text-primary" />
+                <div>
+                  <CardTitle className="text-lg">Supporting documents</CardTitle>
+                  <CardDescription>Upload an ID, ownership document, or vehicle photograph. PDF, JPG, PNG or WebP; 10 MB each.</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <label className="flex min-h-36 cursor-pointer flex-col items-center justify-center border border-dashed border-slate-300 bg-slate-50 px-6 py-8 text-center hover:border-primary">
+                <Upload className="mb-3 h-6 w-6 text-primary" />
+                <span className="text-sm font-medium">Choose files</span>
+                <span className="mt-1 text-xs text-muted-foreground">You may select more than one file</span>
+                <Input className="sr-only" type="file" multiple accept=".pdf,image/jpeg,image/png,image/webp" onChange={(e) => setFiles(Array.from(e.target.files ?? []))} />
+              </label>
+              {files.length > 0 && <p className="mt-3 text-sm text-muted-foreground">{files.length} file{files.length === 1 ? "" : "s"} selected</p>}
             </CardContent>
           </Card>
 

@@ -55,6 +55,15 @@ export interface VehicleRegistration {
   user?: User
   vehicle?: Vehicle
   owner?: Owner
+  attachments?: RegistrationAttachment[]
+}
+
+export interface RegistrationAttachment {
+  id: string
+  fileName: string
+  contentType: string
+  size: number
+  uploadedAt: string
 }
 
 // API Request types
@@ -71,7 +80,6 @@ export interface LoginRequest {
 }
 
 export interface CreateRegistrationRequest {
-  userId: string
   vehicle: Omit<Vehicle, "id">
   owner: Omit<Owner, "id">
 }

@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 import type { LoginRequest } from "@/types"
+import Image from "next/image"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -67,16 +68,14 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen">
       {/* Left side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-primary flex-col justify-between p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-slate-950 flex-col justify-between p-16">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
-            <Car className="h-6 w-6 text-white" />
-          </div>
-          <span className="text-xl font-semibold text-white">VRS Portal</span>
+          <Image src="/somalia-coat-of-arms.png" alt="Somalia coat of arms" width={72} height={60} className="h-16 w-20 object-contain" />
+          <span className="border-l border-white/20 pl-4 text-lg font-semibold text-white">Federal Republic of Somalia</span>
         </div>
 
         <div className="space-y-6">
-          <h1 className="text-4xl font-bold text-white leading-tight text-balance">Vehicle Registration System</h1>
+          <h1 className="text-4xl font-semibold text-white leading-tight text-balance">Vehicle Registration Service</h1>
           <p className="text-lg text-white/80 max-w-md text-pretty">
             Register and manage your vehicle documentation with ease. Fast, secure, and reliable government service.
           </p>
@@ -106,7 +105,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right side - Login form */}
-      <div className="flex w-full lg:w-1/2 items-center justify-center p-6 bg-muted/30">
+      <div className="flex w-full lg:w-1/2 items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="flex lg:hidden items-center justify-center gap-3 mb-8">
@@ -116,7 +115,7 @@ export default function LoginPage() {
             <span className="text-xl font-semibold text-foreground">VRS Portal</span>
           </div>
 
-          <Card className="border-0 shadow-xl shadow-black/5">
+          <Card className="border border-slate-200 shadow-none">
             <CardHeader className="space-y-1 pb-6">
               <CardTitle className="text-2xl font-bold text-foreground">Welcome back</CardTitle>
               <CardDescription className="text-muted-foreground">

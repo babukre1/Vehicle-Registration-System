@@ -18,6 +18,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
+import Image from "next/image"
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -81,23 +82,21 @@ export function AppLayout({ children, requiredRole }: AppLayoutProps) {
 
   return (
     <ProtectedRoute requiredRole={requiredRole}>
-      <div className="flex min-h-screen bg-muted/30">
+      <div className="flex min-h-screen bg-slate-50/60">
         {/* Desktop Sidebar */}
         <aside
           className={cn(
-            "hidden border-r border-border bg-card transition-all duration-300 md:flex md:flex-col",
+            "hidden border-r border-slate-200 bg-white transition-all duration-300 md:flex md:flex-col",
             collapsed ? "w-[72px]" : "w-[260px]",
           )}
         >
-          <div className="flex h-16 items-center justify-between border-b border-border px-4">
+          <div className="flex h-24 items-center justify-between border-b border-slate-200 px-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Car className="h-5 w-5" />
-              </div>
+              <Image src="/somalia-coat-of-arms.png" alt="Somalia coat of arms" width={42} height={42} className="h-12 w-12 object-contain" />
               {!collapsed && (
                 <div className="flex flex-col">
-                  <span className="text-sm font-semibold text-foreground">VRS</span>
-                  <span className="text-xs text-muted-foreground">Portal</span>
+                  <span className="text-sm font-semibold text-foreground">Vehicle Registration</span>
+                  <span className="text-xs text-muted-foreground">Federal Government Service</span>
                 </div>
               )}
             </div>
@@ -132,7 +131,7 @@ export function AppLayout({ children, requiredRole }: AppLayoutProps) {
         {/* Main Content Area */}
         <div className="flex flex-1 flex-col">
           {/* Header */}
-          <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 px-4 md:px-6">
+          <header className="sticky top-0 z-10 flex h-20 items-center justify-between border-b border-slate-200 bg-white px-5 md:px-8">
             <div className="flex items-center gap-4">
               {/* Mobile Menu */}
               <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -155,7 +154,8 @@ export function AppLayout({ children, requiredRole }: AppLayoutProps) {
                 </SheetContent>
               </Sheet>
               <div>
-                <h1 className="text-base font-semibold text-foreground">Vehicle Registration System</h1>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">Federal Republic of Somalia</p>
+                <h1 className="text-base font-semibold text-foreground">Vehicle Registration Service</h1>
                 <p className="hidden text-xs text-muted-foreground sm:block">
                   {user?.role === "ADMIN" ? "Administrator Portal" : "Citizen Portal"}
                 </p>
@@ -207,8 +207,8 @@ export function AppLayout({ children, requiredRole }: AppLayoutProps) {
           </header>
 
           {/* Page Content */}
-          <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
-            <div className="mx-auto max-w-7xl">{children}</div>
+          <main className="flex-1 overflow-auto px-5 py-10 md:px-10 md:py-14">
+            <div className="mx-auto max-w-6xl">{children}</div>
           </main>
         </div>
       </div>

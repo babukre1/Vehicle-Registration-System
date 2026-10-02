@@ -1,4 +1,7 @@
 **/node_modules/
 
 /frontend/.next/
+**/.env
+**/.env.local
+**/*.tsbuildinfo
 

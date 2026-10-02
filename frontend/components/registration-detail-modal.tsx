@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/status-badge"
 import { Separator } from "@/components/ui/separator"
 import { Car, User, Calendar, Hash } from "lucide-react"
 import type { VehicleRegistration } from "@/types"
+import { AttachmentList } from "@/components/attachment-list"
 
 interface RegistrationDetailModalProps {
   registration: VehicleRegistration | null
@@ -110,6 +111,8 @@ export function RegistrationDetailModal({ registration, open, onClose }: Registr
               </div>
             </div>
           )}
+          <Separator />
+          <div><h3 className="mb-4 font-semibold text-foreground">Supporting documents</h3><AttachmentList attachments={registration.attachments} /></div>
         </div>
       </DialogContent>
     </Dialog>

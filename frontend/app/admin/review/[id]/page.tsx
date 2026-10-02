@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
 import type { VehicleRegistration } from "@/types"
+import { AttachmentList } from "@/components/attachment-list"
 
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -269,6 +270,8 @@ export default function ReviewRegistrationPage() {
             </div>
           </CardContent>
         </Card>
+
+        <Card className="border shadow-none"><CardHeader><CardTitle className="text-lg">Supporting documents</CardTitle><CardDescription>Files provided with this application</CardDescription></CardHeader><CardContent><AttachmentList attachments={registration.attachments} /></CardContent></Card>
 
         {/* Admin Actions */}
         {isAdmin && isPending && (

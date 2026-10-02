@@ -48,8 +48,6 @@ export class CreateOwnerForRegistrationDto {
 }
 
 export class CreateRegistrationDto {
-  @IsString()
-  userId!: string; // <-- added manually for testing or non-auth systems
   @Type(() => CreateVehicleForRegistrationDto)
   vehicle!: CreateVehicleForRegistrationDto;
 

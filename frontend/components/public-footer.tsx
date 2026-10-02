@@ -1,13 +1,15 @@
 import Link from "next/link"
 import { MapPin, Phone, Mail } from "lucide-react"
+import Image from "next/image"
 
 export function PublicFooter() {
   return (
-    <footer className="bg-primary text-white">
+    <footer className="border-t border-slate-200 bg-slate-950 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="font-bold text-lg mb-4">Vehicle Registration System</h3>
+            <Image src="/somalia-coat-of-arms.png" alt="Somalia coat of arms" width={80} height={64} className="mb-5 h-16 w-20 object-contain" />
+            <h3 className="font-semibold text-lg mb-4">Vehicle Registration Service</h3>
             <p className="text-sm opacity-90">Simplifying vehicle registration for citizens nationwide.</p>
           </div>
 

@@ -10,8 +10,7 @@ import type {
 } from "@/types";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "https://vehicle-registration-system-backend-oqou0cexz.vercel.app";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -56,6 +55,20 @@ export const registrationsApi = {
     const response = await apiClient.post("/api/registrations", data);
     console.log(response);
 
+    return response.data;
+  },
+
+  uploadAttachment: async (registrationId: string, file: File) => {
+    const body = new FormData();
+    body.append("file", file);
+    const response = await apiClient.post(`/registrations/${registrationId}/attachments`, body, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data;
+  },
+
+  getAttachmentUrl: async (attachmentId: string): Promise<{ url: string; fileName: string }> => {
+    const response = await apiClient.get(`/registrations/attachments/${attachmentId}/download`);
     return response.data;
   },
 

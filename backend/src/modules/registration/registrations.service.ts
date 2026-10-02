@@ -3,12 +3,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateRegistrationDto } from './create-registration.dto';
 import { UpdateRegistrationStatusDto } from './update-registration-status.dto';
 import { Prisma } from '@prisma/client';
+import { randomUUID } from 'crypto';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable()
 export class RegistrationsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly storage: StorageService) {}
 
-  async create(dto: CreateRegistrationDto) {
+  async create(dto: CreateRegistrationDto, userId: string) {
     return this.prisma.$transaction(async (tx) => {
       const owner = await tx.owner.create({
         data: {
@@ -35,7 +37,7 @@ export class RegistrationsService {
 
       const registration = await tx.vehicleRegistration.create({
         data: {
-          userId: dto.userId,
+          userId,
           ownerId: owner.id,
           vehicleId: vehicle.id,
           // status/submittedAt use defaults from schema
@@ -43,6 +45,7 @@ export class RegistrationsService {
         include: {
           user: true,
           owner: true,
+          attachments: true,
           vehicle: true,
         },
       });
@@ -58,6 +61,7 @@ export class RegistrationsService {
         user: true,
         vehicle: true,
         owner: true,
+      attachments: true,
       },
     });
   }
@@ -69,6 +73,7 @@ export class RegistrationsService {
       include: {
         vehicle: true,
         owner: true,
+      attachments: true,
       },
     });
   }
@@ -80,6 +85,7 @@ export class RegistrationsService {
         user: true,
         vehicle: true,
         owner: true,
+      attachments: true,
       },
     });
 
@@ -96,6 +102,7 @@ export class RegistrationsService {
       include: {
         vehicle: true,
         owner: true,
+      attachments: true,
       },
     });
 
@@ -128,5 +135,22 @@ export class RegistrationsService {
     }
 
     
+  }
+
+  async addAttachment(registrationId: string, file: Express.Multer.File) {
+    const key = `registrations/${registrationId}/${randomUUID()}`;
+    await this.storage.upload(key, file);
+    return this.prisma.registrationAttachment.create({
+      data: { registrationId, objectKey: key, fileName: file.originalname, contentType: file.mimetype, size: file.size },
+      select: { id: true, fileName: true, contentType: true, size: true, uploadedAt: true },
+    });
+  }
+
+  async getAttachmentUrl(id: string, userId: string, isAdmin: boolean) {
+    const attachment = await this.prisma.registrationAttachment.findFirst({
+      where: { id, ...(isAdmin ? {} : { registration: { userId } }) },
+    });
+    if (!attachment) throw new NotFoundException('Attachment not found');
+    return { url: await this.storage.createDownloadUrl(attachment.objectKey), fileName: attachment.fileName };
   }
 }

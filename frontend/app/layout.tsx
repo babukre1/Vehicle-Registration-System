@@ -9,9 +9,8 @@ const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Vehicle Registration System",
-  description: "A comprehensive vehicle registration management system",
-    generator: 'v0.app'
+  title: "Vehicle Registration Service | Federal Republic of Somalia",
+  description: "Official vehicle registration services of the Federal Republic of Somalia",
 }
 
 export default function RootLayout({
