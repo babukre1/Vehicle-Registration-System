@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Mail, Lock, Loader2, Car, ArrowRight } from "lucide-react"
-import { authApi } from "@/lib/api"
+import { authApi, getApiErrorMessage } from "@/lib/api"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -54,8 +54,7 @@ export default function LoginPage() {
         router.push("/dashboard")
       }
     } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } }
-      toast.error(err.response?.data?.message || "Invalid credentials. Please try again.")
+      toast.error(getApiErrorMessage(error, "Sign-in failed. Check your email and password and try again."))
     } finally {
       setLoading(false)
     }

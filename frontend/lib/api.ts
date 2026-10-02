@@ -12,6 +12,16 @@ import type {
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
+export function getApiErrorMessage(error: unknown, fallback: string): string {
+  if (!axios.isAxiosError(error)) return fallback;
+  const data = error.response?.data as { message?: string | string[]; details?: string[] } | undefined;
+  if (data?.details?.length) return `${data.message ?? fallback} ${data.details.join(" ")}`;
+  if (Array.isArray(data?.message)) return data.message.join(" ");
+  if (typeof data?.message === "string") return data.message;
+  if (!error.response) return "The service could not be reached. Check your connection and try again.";
+  return fallback;
+}
+
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -53,8 +63,6 @@ export const registrationsApi = {
     data: CreateRegistrationRequest,
   ): Promise<VehicleRegistration> => {
     const response = await apiClient.post("/registrations", data);
-    console.log(response);
-
     return response.data;
   },
 

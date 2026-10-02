@@ -7,7 +7,7 @@ import { useRouter, useParams } from "next/navigation"
 import { ArrowLeft, CheckCircle, XCircle, Loader2, AlertCircle, Car, User, FileText } from "lucide-react"
 import { AppLayout } from "@/components/app-layout"
 import { StatusBadge } from "@/components/status-badge"
-import { registrationsApi } from "@/lib/api"
+import { getApiErrorMessage, registrationsApi } from "@/lib/api"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -63,7 +63,7 @@ export default function ReviewRegistrationPage() {
       const data = await registrationsApi.getById(registrationId)
       setRegistration(data)
     } catch (error) {
-      toast.error("Failed to load registration details")
+      toast.error(getApiErrorMessage(error, "The registration details could not be loaded."))
       console.error(error)
       router.push("/admin/dashboard")
     } finally {
@@ -84,7 +84,7 @@ export default function ReviewRegistrationPage() {
       setRegistration(updated)
       toast.success("Registration approved successfully")
     } catch (error) {
-      toast.error("Failed to approve registration")
+      toast.error(getApiErrorMessage(error, "The registration could not be approved. Please try again."))
       console.error(error)
     } finally {
       setActionLoading(false)
@@ -108,7 +108,7 @@ export default function ReviewRegistrationPage() {
       setRejectionReason("")
       toast.success("Registration rejected")
     } catch (error) {
-      toast.error("Failed to reject registration")
+      toast.error(getApiErrorMessage(error, "The registration could not be rejected. Please try again."))
       console.error(error)
     } finally {
       setActionLoading(false)

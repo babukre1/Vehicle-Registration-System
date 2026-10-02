@@ -1,4 +1,4 @@
-import { IsEmail, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsEmail, IsInt, IsOptional, IsString, Min, ValidateNested, IsDefined } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateVehicleForRegistrationDto {
@@ -48,9 +48,13 @@ export class CreateOwnerForRegistrationDto {
 }
 
 export class CreateRegistrationDto {
+  @IsDefined()
+  @ValidateNested()
   @Type(() => CreateVehicleForRegistrationDto)
   vehicle!: CreateVehicleForRegistrationDto;
 
+  @IsDefined()
+  @ValidateNested()
   @Type(() => CreateOwnerForRegistrationDto)
   owner!: CreateOwnerForRegistrationDto;
 }

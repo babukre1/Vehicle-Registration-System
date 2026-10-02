@@ -80,6 +80,7 @@ export interface LoginRequest {
 }
 
 export interface CreateRegistrationRequest {
+  userId?: string
   vehicle: Omit<Vehicle, "id">
   owner: Omit<Owner, "id">
 }

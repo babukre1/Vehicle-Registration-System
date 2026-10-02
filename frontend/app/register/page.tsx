@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { User, Mail, Lock, Phone, Loader2, Car, ArrowRight, CheckCircle2 } from "lucide-react"
-import { authApi } from "@/lib/api"
+import { authApi, getApiErrorMessage } from "@/lib/api"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -66,8 +66,7 @@ export default function RegisterPage() {
       toast.success("Registration successful! Please login.")
       router.push("/login")
     } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } }
-      toast.error(err.response?.data?.message || "Registration failed. Please try again.")
+      toast.error(getApiErrorMessage(error, "Your account could not be created. Please review your information and try again."))
     } finally {
       setLoading(false)
     }

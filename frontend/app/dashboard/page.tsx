@@ -6,7 +6,7 @@ import { Plus, Eye, RefreshCw, Loader2, FileX, Car } from "lucide-react"
 import { AppLayout } from "@/components/app-layout"
 import { RegistrationDetailModal } from "@/components/registration-detail-modal"
 import { StatusBadge } from "@/components/status-badge"
-import { registrationsApi } from "@/lib/api"
+import { getApiErrorMessage, registrationsApi } from "@/lib/api"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -39,7 +39,7 @@ export default function DashboardPage() {
       const userRegistrations = data.filter((r) => r.userId === user.id || r.user?.id === user.id)
       setRegistrations(userRegistrations)
     } catch (error) {
-      toast.error("Failed to load registrations")
+      toast.error(getApiErrorMessage(error, "Your registrations could not be loaded. Please try again."))
       console.error(error)
     } finally {
       setLoading(false)
@@ -56,7 +56,7 @@ export default function DashboardPage() {
       setSelectedRegistration(fullDetails)
       setModalOpen(true)
     } catch (error) {
-      toast.error("Failed to load registration details")
+      toast.error(getApiErrorMessage(error, "The registration details could not be loaded."))
       console.error(error)
     }
   }

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Eye, RefreshCw, Loader2, Clock, CheckCircle, XCircle, FileText, TrendingUp } from "lucide-react"
 import { AppLayout } from "@/components/app-layout"
 import { StatusBadge } from "@/components/status-badge"
-import { registrationsApi } from "@/lib/api"
+import { getApiErrorMessage, registrationsApi } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -37,7 +37,7 @@ export default function AdminDashboardPage() {
       const data = await registrationsApi.list()
       setRegistrations(data)
     } catch (error) {
-      toast.error("Failed to load registrations")
+      toast.error(getApiErrorMessage(error, "Registrations could not be loaded. Please try again."))
       console.error(error)
     } finally {
       setLoading(false)

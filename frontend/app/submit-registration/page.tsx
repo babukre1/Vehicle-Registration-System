@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Car, User, Loader2, ArrowLeft, Paperclip, Upload } from "lucide-react"
 import { AppLayout } from "@/components/app-layout"
-import { registrationsApi } from "@/lib/api"
+import { getApiErrorMessage, registrationsApi } from "@/lib/api"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -70,6 +70,7 @@ export default function SubmitRegistrationPage() {
     setLoading(true)
     try {
       const payload: CreateRegistrationRequest = {
+        userId: user.id,
         vehicle: {
           plateNumber,
           make,
@@ -94,8 +95,7 @@ export default function SubmitRegistrationPage() {
       toast.success("Registration submitted successfully!")
       router.push("/dashboard")
     } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } }
-      toast.error(err.response?.data?.message || "Failed to submit registration. Please try again.")
+      toast.error(getApiErrorMessage(error, "The registration could not be submitted. Please review the form and try again."))
     } finally {
       setLoading(false)
     }
