@@ -52,7 +52,7 @@ export const registrationsApi = {
   create: async (
     data: CreateRegistrationRequest,
   ): Promise<VehicleRegistration> => {
-    const response = await apiClient.post("/api/registrations", data);
+    const response = await apiClient.post("/registrations", data);
     console.log(response);
 
     return response.data;
@@ -75,12 +75,12 @@ export const registrationsApi = {
   list: async (params?: {
     userId?: string;
   }): Promise<VehicleRegistration[]> => {
-    const response = await apiClient.get("/api/registrations", { params });
+    const response = await apiClient.get("/registrations", { params });
     return response.data;
   },
 
   getById: async (id: string): Promise<VehicleRegistration> => {
-    const response = await apiClient.get(`/api/registrations/${id}`);
+    const response = await apiClient.get(`/registrations/${id}`);
     return response.data;
   },
 
@@ -89,7 +89,7 @@ export const registrationsApi = {
     data: UpdateStatusRequest,
   ): Promise<VehicleRegistration> => {
     const response = await apiClient.patch(
-      `/api/registrations/${id}/status`,
+      `/registrations/${id}/status`,
       data,
     );
     return response.data;
